@@ -17,7 +17,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import kaptainwutax.biomeutils.source.OverworldBiomeSource;
 import kaptainwutax.featureutils.loot.ChestContent;
 import kaptainwutax.featureutils.loot.item.ItemStack;
-import kaptainwutax.featureutils.misc.SpawnPoint;
 import kaptainwutax.featureutils.structure.RuinedPortal;
 import kaptainwutax.featureutils.structure.generator.structure.RuinedPortalGenerator;
 import kaptainwutax.mcutils.block.Block;
@@ -27,7 +26,6 @@ import kaptainwutax.mcutils.util.data.Pair;
 import kaptainwutax.mcutils.util.pos.BPos;
 import kaptainwutax.mcutils.util.pos.CPos;
 import kaptainwutax.mcutils.version.MCVersion;
-import kaptainwutax.seedutils.rand.JRand;
 import kaptainwutax.terrainutils.terrain.OverworldTerrainGenerator;
 
 /**
