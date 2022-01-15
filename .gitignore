@@ -1,0 +1,14 @@
+# Ignore project-specific cache directory
+.gradle
+bin
+
+# Ignore project files
+.settings
+.classpath
+.project
+
+# Ignore output directory
+build
+
+# Ignore Seeds
+*.txt
