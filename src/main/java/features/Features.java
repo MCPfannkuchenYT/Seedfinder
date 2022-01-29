@@ -112,19 +112,9 @@ public class Features {
 	private static void checkSeed(long seed, ChunkRand rand, RuinedPortalGenerator portalgenerator, RuinedPortal portal, ByteArrayOutputStream s) throws IOException {
 		// Prepare Generators
 		OverworldBiomeSource source = new OverworldBiomeSource(MCVersion.v1_16_1, seed);
-//		// Locate Ruined Portal near spawn
-//		BPos spawnlocation = getSpawnPoint(source);
-//		RPos spawnlocation_region = spawnlocation.toRegionPos(512);
-//		// Locate Ruined Portal
-//		CPos portalposition = portal.getInRegion(seed, spawnlocation_region.getX(), spawnlocation_region.getZ(), rand);
-//		if (spawnlocation.toChunkPos().distanceTo(portalposition, DistanceMetric.EUCLIDEAN) > 12)
-//			return;
-		
-		// Locate Ruined Portal near 200,200-300,300
-		CPos portalposition = portal.getInRegion(seed, 0, 0, rand);
+		// Locate Ruined Portal near 190,-64 and 210,0
+		CPos portalposition = portal.getInRegion(seed, 0, -1, rand);
 		if (portalposition == null) 
-			return;
-		if (!(portalposition.getX() > 12 && portalposition.getZ() > 12 && portalposition.getX() < 19 && portalposition.getZ() < 19))
 			return;
 		OverworldTerrainGenerator terrain = new OverworldTerrainGenerator(source);
 		if (!portalgenerator.generate(terrain, portalposition))
@@ -138,6 +128,8 @@ public class Features {
 		int obsidian = 0;
 		boolean is_flamable = false;
 		boolean is_sword = false;
+		boolean is_pickaxe = false;
+		boolean is_axe = false;
 		for (Pair<Block, BPos> pair : portalgenerator.getMinimalPortal())
 			if ("crying_obsidian".equals(pair.getFirst().getName()))
 				return;
@@ -150,41 +142,23 @@ public class Features {
 					obsidian++;
 				else if ("flint_and_steel".equals(i.getItem().getName()) || "fire_charge".equals(i.getItem().getName()))
 					is_flamable = true;
-				else if ("golden_sword".equals(i.getItem().getName()) && hasLooting(i.getItem().getEnchantments()))
+				else if ("golden_sword".equals(i.getItem().getName()))
 					is_sword = true;
+				else if ("golden_pickaxe".equals(i.getItem().getName()))
+					is_pickaxe = true;
+				else if ("golden_axe".equals(i.getItem().getName()))
+					is_axe = true;
 		if (!is_flamable)
 			return;
 		if (!is_sword)
 			return;
+		if (!is_pickaxe)
+			return;
+		if (!is_axe)
+			return;
 		// Finally check
 		if (typeint == 6 && obsidian >= 12)
 			s.write(("Seed found: " + seed + "\n").getBytes(StandardCharsets.UTF_8));
-		else if ((typeint == 1 || typeint == 8 || typeint == 9) && obsidian >= 10)
-			s.write(("Seed found: " + seed + "\n").getBytes(StandardCharsets.UTF_8));
 	}
-	
-	/**
-	 * Finds looting in a list of enchantments
-	 * @param enchantments List of Enchantments
-	 * @return Whether it has looting or not
-	 */
-	private static boolean hasLooting(ArrayList<Pair<String, Integer>> enchantments) {
-		for (Pair<String, Integer> pair : enchantments)
-			if ("looting".equals(pair.getFirst()))
-				return true;
-		return false;
-	}
-
-	/**
-	 * Obtains the spawn position but fast.
-	 * @param source For locating the spawn biomes
-	 * @return Spawn Point
-	 */
-//	private static BPos getSpawnPoint(OverworldBiomeSource source) {
-//		JRand rand = new JRand(source.getWorldSeed());
-//		BPos spawnPos = source.locateBiome(0, 0, 0, 256, 16, SpawnPoint.SPAWN_BIOMES, rand, false);
-//		spawnPos = spawnPos == null ? new BPos(8, 64, 8) : spawnPos.add(8, 64, 8);
-//		return spawnPos;
-//	}
 	
 }
